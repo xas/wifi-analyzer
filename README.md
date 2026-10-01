@@ -1,5 +1,9 @@
 # WiFi Analyzer
 
+A fork from the original [repo](https://github.com/Kurulko/WiFi-Analyzer)  
+Overuse of claude to migrate to net10.0 + AvaloniaUI + some cleanup  
+Tested on Win11
+
 # Contents
 
 - [Installation](#installation)
@@ -9,31 +13,33 @@
 
 ## Installation
 
-To get started with the WiFi Network Analyzer, follow the steps below:
+1. **Install the .NET 10 SDK** (Windows only: the app uses the native WLAN API).
 
-1. **Clone the repository:**
-   
+2. **Clone the repository:**
+
    ```sh
    git clone https://github.com/Kurulko/WiFi-Analyzer.git
-   
-2. **Open the solution file in Visual Studio:**
-   
-   ```sh
    cd WiFi-Analyzer
-   start WiFiAnalyzer.sln
+   ```
 
-3. **Ensure you have the required .NET MAUI workload installed in Visual Studio:**
-  - Go to Tools > Get Tools and Features...
-  - In the Visual Studio Installer, select the .NET Multi-platform App UI development workload and install it.
+3. **Build, test and run:**
 
-4. **Build and run the project in Visual Studio:**
-  - Select your target platform (Windows) from the platform selector.
-  - Press F5 to build and run the application.
+   ```sh
+   dotnet build WiFiAnalyzer.slnx
+   dotnet test --solution WiFiAnalyzer.slnx
+   dotnet run --project src/WiFiAnalyzer.Desktop
+   ```
+
+   You can also open `WiFiAnalyzer.slnx` in Visual Studio 2026 or Rider. No MAUI workload is needed.
+
+Scanned networks are stored in a SQLite database at `%LocalAppData%\WiFiAnalyzer\WiFiAnalyzer.db`. It is created on first start. No configuration is needed.
+
+> **Note:** On Windows 11, scanning WiFi networks requires location access for desktop apps (Settings > Privacy & security > Location > "Let desktop apps access your location"). Without it, the app shows an "Access denied" error.
 <br/>
 
 ## Overview
 
-The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to provide detailed information and analysis of WiFi networks. It offers insights into various parameters of your WiFi connection and available networks.
+The WiFi Network Analyzer is a Windows desktop application built with .NET 10 and [Avalonia UI](https://avaloniaui.net/), designed to provide detailed information and analysis of WiFi networks. It offers insights into various parameters of your WiFi connection and available networks.
 
 ## Pages
 
@@ -82,9 +88,11 @@ The WiFi Network Analyzer is a comprehensive .NET MAUI application designed to p
 #### 3.1 Table
 ![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/b276ff02-0942-463c-9c0d-9d7772f346e9)
 
-- **Sorting:** Ability to sort data by any column in the table (e.g., SSID, Signal Level, Distance)
+- **Sorting:** Click any column header to sort (e.g., SSID, Signal Level, Distance). The sort is kept when data refreshes.
 
-#### 3.2 Gaphs
+#### 3.2 Graphs
+
+Use the **View Graph** / **View Table** button to switch between the table and the graphs.
 
 ##### a) dBm
 ![image](https://github.com/Kurulko/WiFi-Analyzer/assets/95112563/eef1de1b-61e0-4799-8b3f-373506f29d0b)
@@ -107,6 +115,26 @@ To get started with the WiFi Network Analyzer, launch the application and naviga
 
 ## Requirements
 
-- A device with WiFi capability
-- .NET MAUI (Multi-platform App UI) framework
-- Visual Studio 2022 or later with .NET MAUI workload installed
+- Windows 10 or later, with a WiFi adapter
+- .NET 10 SDK
+
+## Project structure
+
+```
+src/WiFiAnalyzer.Core/                    Models, services (WLAN, speed test), EF Core context, ViewModels
+src/WiFiAnalyzer.Desktop/                 Avalonia UI app (views, converters, notifications)
+tests/WiFiAnalyzer.Core.UnitTests/        xUnit v3 unit tests
+tests/WiFiAnalyzer.Core.IntegrationTests/ xUnit v3 tests against a real SQLite file
+```
+
+## Tech stack
+
+- .NET 10, C# latest
+- Avalonia UI 12 (Fluent theme, DataGrid)
+- CommunityToolkit.Mvvm
+- ScottPlot for the graphs
+- Entity Framework Core with SQLite
+- ManagedNativeWifi (native WLAN API)
+- Download speed test against `speed.cloudflare.com` (4 parallel streams, 15 s, `HttpClient` only)
+
+> Screenshots above come from the original .NET MAUI version. The Avalonia version keeps the same pages and data.

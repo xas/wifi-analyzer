@@ -1,0 +1,62 @@
+<views:ActivatableView xmlns="https://github.com/avaloniaui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:vm="using:WiFiAnalyzer.Core.ViewModels.Networks"
+                       xmlns:models="using:WiFiAnalyzer.Core.Models"
+                       xmlns:views="using:WiFiAnalyzer.Desktop.Views"
+                       xmlns:controls="using:WiFiAnalyzer.Desktop.Views.Controls"
+                       xmlns:converters="using:WiFiAnalyzer.Desktop.Converters"
+                       x:Class="WiFiAnalyzer.Desktop.Views.NetworksTableView"
+                       x:DataType="vm:NetworksTableViewModel">
+    <views:ActivatableView.Resources>
+        <converters:SignalStrengthBrushConverter x:Key="SignalStrengthBrush" />
+        <converters:LastSeenConverter x:Key="LastSeen" />
+    </views:ActivatableView.Resources>
+
+    <DockPanel>
+        <controls:FrequencyFilterView DockPanel.Dock="Top" />
+
+        <TextBlock DockPanel.Dock="Top" IsVisible="{Binding HasNoFilteredNetworks}"
+                   Text="No network found" Foreground="Red" FontSize="25" FontWeight="Bold"
+                   HorizontalAlignment="Center" Margin="0,20,0,0" />
+
+        <DataGrid ItemsSource="{Binding Rows}" IsVisible="{Binding HasFilteredNetworks}"
+                  IsReadOnly="True" CanUserSortColumns="True" CanUserResizeColumns="True"
+                  GridLinesVisibility="All" HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="SSID" Binding="{Binding SSID}" />
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="Protocol" Binding="{Binding Protocol}" />
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="Frequency" SortMemberPath="FrequencyInHz"
+                                    Binding="{Binding FrequencyInMHz, StringFormat='{}{0} MHz'}" />
+                <DataGridCheckBoxColumn x:DataType="models:WiFiNetwork" Header="Connected"
+                                        Binding="{Binding NetworkStates.IsConnected}" />
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="Channel" Binding="{Binding Channel}" />
+                <DataGridTemplateColumn x:DataType="models:WiFiNetwork" Header="Signal Strength"
+                                        SortMemberPath="NetworkStates.SignalStrengthIndBm">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="models:WiFiNetwork">
+                            <StackPanel Margin="8,4" Spacing="2"
+                                        IsVisible="{Binding NetworkStates, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           Text="{Binding NetworkStates.SignalStrengthIndBm, StringFormat='{}{0} dBm'}"
+                                           Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}" />
+                                <ProgressBar Minimum="-100" Maximum="-50" MinWidth="120"
+                                             Value="{Binding NetworkStates.SignalStrengthIndBm}"
+                                             Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}" />
+                                <TextBlock HorizontalAlignment="Center"
+                                           Text="{Binding NetworkStates.SignalStrengthInPercentage, StringFormat='{}{0}%'}"
+                                           Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="BSSID" Binding="{Binding StringMacAddress}" />
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="Distance" SortMemberPath="NetworkStates.DistanceInMeters"
+                                    Binding="{Binding NetworkStates.DistanceInMeters, StringFormat='{}{0:F1} m'}" />
+                <DataGridCheckBoxColumn x:DataType="models:WiFiNetwork" Header="Secured" Binding="{Binding IsSecured}" />
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="Authentication" Binding="{Binding AuthenticationAlgorithm}" />
+                <DataGridTextColumn x:DataType="models:WiFiNetwork" Header="Last Seen" SortMemberPath="LastSeen"
+                                    Binding="{Binding LastSeen, Mode=OneWay, Converter={StaticResource LastSeen}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</views:ActivatableView>

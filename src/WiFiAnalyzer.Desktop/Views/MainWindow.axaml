@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:WiFiAnalyzer.Core.ViewModels"
+        xmlns:views="using:WiFiAnalyzer.Desktop.Views"
+        x:Class="WiFiAnalyzer.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="WiFi Analyzer"
+        Width="1100" Height="850"
+        MinWidth="720" MinHeight="560"
+        WindowStartupLocation="CenterScreen">
+    <TabControl>
+        <TabItem Header="Home">
+            <Border Classes="page">
+                <views:HomeView DataContext="{Binding Home}" />
+            </Border>
+        </TabItem>
+        <TabItem Header="Connected">
+            <Border Classes="page">
+                <views:ConnectedNetworkView DataContext="{Binding Connected}" />
+            </Border>
+        </TabItem>
+        <TabItem Header="Networks">
+            <Border Classes="page">
+                <views:NetworksPageView DataContext="{Binding Networks}" />
+            </Border>
+        </TabItem>
+    </TabControl>
+</Window>

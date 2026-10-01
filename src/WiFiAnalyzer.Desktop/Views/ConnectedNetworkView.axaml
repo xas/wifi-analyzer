@@ -1,0 +1,52 @@
+<views:ActivatableView xmlns="https://github.com/avaloniaui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:vm="using:WiFiAnalyzer.Core.ViewModels.Network"
+                       xmlns:views="using:WiFiAnalyzer.Desktop.Views"
+                       xmlns:controls="using:WiFiAnalyzer.Desktop.Views.Controls"
+                       x:Class="WiFiAnalyzer.Desktop.Views.ConnectedNetworkView"
+                       x:DataType="vm:ConnectedNetworkViewModel">
+    <ScrollViewer>
+        <StackPanel>
+            <controls:NetworkDetailsView />
+
+            <Border Classes="card">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                    <TextBlock Classes="title" Text="IP Address Details" Grid.ColumnSpan="2" />
+
+                    <TextBlock Classes="header" Text="Private IPv4" Grid.Row="1" />
+                    <TextBlock Classes="body" Text="{Binding IPAddressInfo.PrivateIPv4}" Grid.Row="1" Grid.Column="1" />
+
+                    <TextBlock Classes="header" Text="Subnet Mask" Grid.Row="2" />
+                    <TextBlock Classes="body" Text="{Binding IPAddressInfo.SubnetMask}" Grid.Row="2" Grid.Column="1" />
+
+                    <TextBlock Classes="header" Text="Public IPv4" Grid.Row="3" />
+                    <TextBlock Classes="body" Text="{Binding IPAddressInfo.PublicIPv4}" Grid.Row="3" Grid.Column="1" />
+                </Grid>
+            </Border>
+
+            <Border Classes="card">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+                    <TextBlock Classes="title" Text="Security" Grid.ColumnSpan="2" />
+
+                    <TextBlock Classes="header" Text="Authentication" Grid.Row="1" />
+                    <TextBlock Classes="body" Text="{Binding NetworkSecurityInfo.Authentication}" Grid.Row="1" Grid.Column="1" />
+
+                    <TextBlock Classes="header" Text="Encryption" Grid.Row="2" />
+                    <TextBlock Classes="body" Text="{Binding NetworkSecurityInfo.Encryption}" Grid.Row="2" Grid.Column="1" />
+                </Grid>
+            </Border>
+
+            <Border Classes="card">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto">
+                    <TextBlock Classes="title" Text="Infrastructure" Grid.ColumnSpan="2" />
+
+                    <TextBlock Classes="header" Text="Interface" Grid.Row="1" />
+                    <TextBlock Classes="body" Text="{Binding NetworkInfrastructureInfo.Interface}" Grid.Row="1" Grid.Column="1" />
+
+                    <TextBlock Classes="header" Text="Type" Grid.Row="2" />
+                    <TextBlock Classes="body" Text="{Binding NetworkInfrastructureInfo.InterfaceType}" Grid.Row="2" Grid.Column="1" />
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</views:ActivatableView>

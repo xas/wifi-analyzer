@@ -1,0 +1,34 @@
+<views:ActivatableView xmlns="https://github.com/avaloniaui"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:vm="using:WiFiAnalyzer.Core.ViewModels.Networks"
+                       xmlns:views="using:WiFiAnalyzer.Desktop.Views"
+                       xmlns:controls="using:WiFiAnalyzer.Desktop.Views.Controls"
+                       x:Class="WiFiAnalyzer.Desktop.Views.NetworksGraphView"
+                       x:DataType="vm:NetworksGraphViewModel">
+    <views:ActivatableView.Styles>
+        <Style Selector="TextBlock.chartTitle">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="10,4,10,0" />
+        </Style>
+    </views:ActivatableView.Styles>
+
+    <DockPanel>
+        <controls:FrequencyFilterView DockPanel.Dock="Top" />
+
+        <TextBlock DockPanel.Dock="Top" IsVisible="{Binding HasNoFilteredNetworks}"
+                   Text="No network found" Foreground="Red" FontSize="25" FontWeight="Bold"
+                   HorizontalAlignment="Center" Margin="0,20,0,0" />
+
+        <Grid RowDefinitions="Auto,*,Auto,*" IsVisible="{Binding HasFilteredNetworks}">
+            <TextBlock Classes="chartTitle" Text="dBm" />
+            <controls:NetworkChartView Grid.Row="1" Kind="Line" Margin="10,0,10,10"
+                                       Points="{Binding SignalPoints}" />
+
+            <TextBlock Grid.Row="2" Classes="chartTitle" Text="Distance" />
+            <controls:NetworkChartView Grid.Row="3" Kind="Column" Margin="10,0,10,10"
+                                       Points="{Binding DistancePoints}" />
+        </Grid>
+    </DockPanel>
+</views:ActivatableView>

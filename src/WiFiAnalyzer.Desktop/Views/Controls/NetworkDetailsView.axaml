@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:WiFiAnalyzer.Core.ViewModels.Network"
+             xmlns:converters="using:WiFiAnalyzer.Desktop.Converters"
+             x:Class="WiFiAnalyzer.Desktop.Views.Controls.NetworkDetailsView"
+             x:DataType="vm:NetworkViewModel">
+    <UserControl.Resources>
+        <converters:SignalStrengthBrushConverter x:Key="SignalStrengthBrush" />
+    </UserControl.Resources>
+
+    <Border Classes="card">
+        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+            <TextBlock Classes="title" Text="Network Details" Grid.ColumnSpan="2" />
+
+            <TextBlock Classes="header" Text="SSID" Grid.Row="1" />
+            <TextBlock Classes="body" Text="{Binding ConnectedNetwork.SSID}" Grid.Row="1" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="Channel" Grid.Row="2" />
+            <TextBlock Classes="body" Text="{Binding ConnectedNetwork.Channel}" Grid.Row="2" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="Frequency" Grid.Row="3" />
+            <TextBlock Classes="body" Text="{Binding ConnectedNetwork.FrequencyInMHz, StringFormat='{}{0} MHz'}" Grid.Row="3" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="Signal Strength" Grid.Row="4" Grid.RowSpan="3" />
+            <TextBlock Classes="body" Text="{Binding NetworkStates.SignalStrengthIndBm, StringFormat='{}{0} dBm'}"
+                       Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}"
+                       Grid.Row="4" Grid.Column="1" />
+            <Border Classes="cell" Grid.Row="5" Grid.Column="1">
+                <ProgressBar Minimum="-100" Maximum="-50" Width="170"
+                             Value="{Binding NetworkStates.SignalStrengthIndBm}"
+                             Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}"
+                             IsVisible="{Binding NetworkStates, Converter={x:Static ObjectConverters.IsNotNull}}" />
+            </Border>
+            <TextBlock Classes="body" Text="{Binding NetworkStates.SignalStrengthInPercentage, StringFormat='{}{0}%'}"
+                       Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}"
+                       Grid.Row="6" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="MAC Address" Grid.Row="7" />
+            <TextBlock Classes="body" Text="{Binding ConnectedNetwork.StringMacAddress}" Grid.Row="7" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="Distance" Grid.Row="8" />
+            <TextBlock Classes="body" Text="{Binding NetworkStates.DistanceInMeters, StringFormat='{}{0:F1} m'}"
+                       Foreground="{Binding NetworkStates.SignalStrengthIndBm, Converter={StaticResource SignalStrengthBrush}}"
+                       Grid.Row="8" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="Secured" Grid.Row="9" />
+            <Border Classes="cell" Grid.Row="9" Grid.Column="1">
+                <CheckBox IsChecked="{Binding ConnectedNetwork.IsSecured}"
+                          IsHitTestVisible="False" Focusable="False" HorizontalAlignment="Center" />
+            </Border>
+
+            <TextBlock Classes="header" Text="Protocol" Grid.Row="10" />
+            <TextBlock Classes="body" Text="{Binding ConnectedNetwork.Protocol}" Grid.Row="10" Grid.Column="1" />
+
+            <TextBlock Classes="header" Text="Authentication" Grid.Row="11" />
+            <TextBlock Classes="body" Text="{Binding ConnectedNetwork.AuthenticationAlgorithm}" Grid.Row="11" Grid.Column="1" />
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WiFiAnalyzer.Core/WiFiAnalyzer.Core.csproj" />
+    <Project Path="src/WiFiAnalyzer.Desktop/WiFiAnalyzer.Desktop.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WiFiAnalyzer.Core.IntegrationTests/WiFiAnalyzer.Core.IntegrationTests.csproj" />
+    <Project Path="tests/WiFiAnalyzer.Core.UnitTests/WiFiAnalyzer.Core.UnitTests.csproj" />
+  </Folder>
+</Solution>

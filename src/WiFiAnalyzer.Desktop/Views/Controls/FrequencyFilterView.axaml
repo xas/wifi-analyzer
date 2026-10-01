@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:WiFiAnalyzer.Core.ViewModels.Networks"
+             xmlns:converters="using:WiFiAnalyzer.Desktop.Converters"
+             x:Class="WiFiAnalyzer.Desktop.Views.Controls.FrequencyFilterView"
+             x:DataType="vm:NetworksViewModel">
+    <UserControl.Resources>
+        <converters:EqualsParameterConverter x:Key="EqualsParameter" />
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Button.selected">
+            <Setter Property="Background" Value="Gray" />
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center" Margin="0,10,0,20">
+        <Button Content="All" Command="{Binding FilterByGHzCommand}" CommandParameter="All"
+                Classes.selected="{Binding Frequency, Converter={StaticResource EqualsParameter}, ConverterParameter=All}" />
+        <Button Content="2.4 GHz" Command="{Binding FilterByGHzCommand}" CommandParameter="2.4 GHz"
+                Classes.selected="{Binding Frequency, Converter={StaticResource EqualsParameter}, ConverterParameter='2.4 GHz'}" />
+        <Button Content="5 GHz" Command="{Binding FilterByGHzCommand}" CommandParameter="5 GHz"
+                Classes.selected="{Binding Frequency, Converter={StaticResource EqualsParameter}, ConverterParameter='5 GHz'}" />
+        <Button Content="6 GHz" Command="{Binding FilterByGHzCommand}" CommandParameter="6 GHz"
+                Classes.selected="{Binding Frequency, Converter={StaticResource EqualsParameter}, ConverterParameter='6 GHz'}" />
+    </StackPanel>
+</UserControl>
