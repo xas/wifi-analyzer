@@ -2,7 +2,8 @@
 
 A fork from the original [repo](https://github.com/Kurulko/WiFi-Analyzer)  
 Overuse of claude to migrate to net10.0 + AvaloniaUI + some cleanup  
-Tested on Win11
+Tested on Win11  
+I don't intend to do something else on it. Except maybe a better chart...
 
 # Contents
 
@@ -18,8 +19,8 @@ Tested on Win11
 2. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/Kurulko/WiFi-Analyzer.git
-   cd WiFi-Analyzer
+   git clone https://github.com/xas/wifi-analyzer.git
+   cd wifi-analyzer
    ```
 
 3. **Build, test and run:**
@@ -30,12 +31,11 @@ Tested on Win11
    dotnet run --project src/WiFiAnalyzer.Desktop
    ```
 
-   You can also open `WiFiAnalyzer.slnx` in Visual Studio 2026 or Rider. No MAUI workload is needed.
+   You can also open `WiFiAnalyzer.slnx` in Visual Studio 2026 or Rider.
 
 Scanned networks are stored in a SQLite database at `%LocalAppData%\WiFiAnalyzer\WiFiAnalyzer.db`. It is created on first start. No configuration is needed.
 
 > **Note:** On Windows 11, scanning WiFi networks requires location access for desktop apps (Settings > Privacy & security > Location > "Let desktop apps access your location"). Without it, the app shows an "Access denied" error.
-<br/>
 
 ## Overview
 
